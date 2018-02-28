@@ -12,7 +12,7 @@ type ReqBody = {
 type ExtReq = {body: ReqBody} & Req;
 
 async function addNewProduct(req: ExtReq, res: Res) {
-  //TODO: ADD ONE PRODUCT
+  console.log('Hello from crud controller!');
   let {id, name, description, price, photo} = req.body;
   if (
     id == null ||
@@ -21,7 +21,7 @@ async function addNewProduct(req: ExtReq, res: Res) {
     price == null ||
     photo == null
   ) {
-    res.status(404).json({
+    res.status(400).json({
       status: 'ERROR',
       message: 'Some data is not sent to the server',
     });
@@ -48,7 +48,6 @@ async function addNewProduct(req: ExtReq, res: Res) {
 }
 
 async function getProduct(req: ExtReq, res: Res) {
-  //TODO: GET ONE PRODUCT
   let id = req.params.id;
   try {
     let productDetails = await Product.findOne({id});
@@ -86,7 +85,7 @@ async function getAllProducts(req: ExtReq, res: Res) {
       dataStat = {
         statusCode: 200,
         status: 'OK',
-        message: `Here's the data : ${productList}`,
+        message: productList,
       };
     } else {
       dataStat = {
@@ -110,7 +109,6 @@ async function getAllProducts(req: ExtReq, res: Res) {
 async function editProduct(req: ExtReq, res: Res) {
   let {name, description, price, photo} = req.body;
   let id = req.params.id;
-  // let product = await Product.findOne({id});
   try {
     await Product.findOneAndUpdate({id}, {name, description, price, photo});
     res.status(200).json({
@@ -128,9 +126,7 @@ async function editProduct(req: ExtReq, res: Res) {
 async function deleteProduct(req: ExtReq, res: Res) {
   let id = req.params.id;
   try {
-    await Product.deleteOne({
-      id,
-    });
+    await Product.deleteOne({id});
     res.status(200).json({
       status: 'OK',
       message: 'Yay record has been deleted',

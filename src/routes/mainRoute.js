@@ -9,8 +9,6 @@ import {
   deleteProduct,
 } from '../controller/crudController';
 
-// TODO:how to define type for router?
-
 let mainRouter = Router();
 
 mainRouter.get('/', getAllProducts);
